@@ -11,7 +11,7 @@ mongoose.connect(config.db.url);
 
 const app = express();
 app.set('secret', config.secret);
-app.use(require('morgan')('dev'));
+app.use(require('morgan')(config.env));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
