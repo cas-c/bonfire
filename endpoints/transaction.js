@@ -1,7 +1,8 @@
 const router = require('express').Router();
 
 const { User, Transaction } = require('../models');
-const { catchAsync } = require('../utils');
+const { catchAsync, responses } = require('../utils');
+
 
 router.get('/', catchAsync(async (req, res) => {
     const transactions = await Transaction.find({});
@@ -12,26 +13,14 @@ router.post('/', catchAsync(async (req, res) => {
     const giver = await User.findOne({ discordId: req.body.giverId });
     const receiver = await User.findOne({ discordId: req.body.receiverId });
     if (!giver) {
-        res.json({
-            success: false,
-            message: `User ${req.body.giverId} does not exist in our database.`,
-            code: 'NO_USER_GIVER'
-        });
+        res.json(responses([req.body.giverId])('NO_USER_GIVER'));
         return;
     } else if (!receiver) {
-        res.json({
-            success: false,
-            message: `User ${req.body.receiverId} does not exist in our database.`,
-            code: 'NO_USER_RECEIVER'
-        });
+        res.json(responses([req.body.receiverId])('NO_USER_RECEIVER'));
         return;
     }
     if (giver.balance < req.body.amount) {
-        res.json({
-            success: false,
-            message: `User ${giver.tag} does not have enough funds for this transaction.`,
-            code: 'TOO_BROKE_LOL'
-        });
+        res.json(responses([giver.tag])('TOO_BROKE_LOL'));
         return;
     }
     const trans = new Transaction({
@@ -51,11 +40,7 @@ router.post('/', catchAsync(async (req, res) => {
     trans.set({ pending: false });
     await trans.save();
 
-    res.json({
-        success: true,
-        message: `${giver.tag} has given ${receiver.tag} ${req.body.amount} souls.`,
-        code: 'SUCCESSFUL_TRANSFER'
-    });
+    res.json(responses(giver.tag, receiver.tag, req.body.amount)('SUCCESSFUL_TRANSFER'));
     return;
 }));
 
