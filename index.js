@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api/transaction', isAuthed, endpoints.transaction);
+app.use('/api/user', isAuthed, endpoints.user);
 
 app.listen(3000, () => {
     console.log('Running on port 3000!');
