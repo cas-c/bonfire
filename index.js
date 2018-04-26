@@ -17,9 +17,10 @@ app.use(bodyParser.json());
 
 app.use('/api/transaction', isAuthed, endpoints.transaction);
 app.use('/api/user', isAuthed, endpoints.user);
+app.use('/api/test', isAuthed, require('./endpoints/test'));
 
-app.listen(3000, () => {
-    console.log('Running on port 3000!');
+app.listen(config.port, () => {
+    console.log(`Running on port ${config.port}`);
 });
 
 

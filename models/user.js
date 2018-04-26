@@ -11,4 +11,4 @@ module.exports = mongoose.model('User', new mongoose.Schema({
     },
     lastUpdated: { type: Date, default: Date.now },
     balance: { type: Number, default: 0 }
-}))
+}));
