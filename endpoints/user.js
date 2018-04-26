@@ -3,10 +3,16 @@ const { User, Transaction } = require('../models');
 const { catchAsync, responses } = require('../utils');
 
 const safeReturn = userArray => userArray.map(user => Object.assign({}, { tag: user.tag, balance: user.balance, discordId: user.discordId }));
-
+const safeReturnSingle = user => Object.assign({}, { tag: user.tag, balance: user.balance, discordId: user.discordId });
 router.get('/', catchAsync(async (req, res) => {
     const users = await User.find({});
     res.json(safeReturn(users));
+}));
+
+router.get('/:did', catchAsync(async (req, res) => {
+    const user = await User.findOne({ discordId: req.params.did });
+    res.json(safeReturnSingle(user));
+    return;
 }));
 
 router.post('/', catchAsync(async (req, res) => {
