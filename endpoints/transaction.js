@@ -10,6 +10,10 @@ router.get('/', catchAsync(async (req, res) => {
 }));
 
 router.post('/', catchAsync(async (req, res) => {
+    if (req.body.giverId === req.body.receiverId) {
+        res.json(response()('CANNOT_GIVE_SELF'));
+        return;
+    }
     const giver = await User.findOne({ discordId: req.body.giverId });
     const receiver = await User.findOne({ discordId: req.body.receiverId });
     if (!giver) {

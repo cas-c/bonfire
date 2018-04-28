@@ -36,6 +36,11 @@ const responses = args => response_code => {
             success: true,
             message: 'Successfully updated user / balance database.',
             code: response_code
+        }),
+        'CANNOT_GIVE_SELF': () => ({
+            success: false,
+            message: 'Unable to give self souls.',
+            code: response_code
         })
     })({
         success: false,
