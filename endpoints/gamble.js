@@ -30,7 +30,7 @@ router.post('/', catchAsync(async (req, res) => {
         await newGambler.save();
     } else {
         gUser.set({
-            profit: req.body.balance - gambler.balance,
+            profit: req.body.balance - gambler.balance + gUser.profit,
             totalWagered: gUser.totalWagered + req.body.wagered
         });
         await gUser.save();
