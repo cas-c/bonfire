@@ -15,6 +15,7 @@ app.use(require('morgan')(config.env));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use('/api/gamble', isAuthed, endpoints.gamble);
 app.use('/api/leaderboard', endpoints.leaderboard);
 app.use('/api/transaction', isAuthed, endpoints.transaction);
 app.use('/api/user', isAuthed, endpoints.user);

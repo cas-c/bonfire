@@ -41,6 +41,11 @@ const responses = args => response_code => {
             success: false,
             message: 'Unable to give self souls.',
             code: response_code
+        }),
+        'SUCCESSFUL_GAMBLE': () => ({
+            success: true,
+            message: 'Gambled successfully.',
+            code: response_code
         })
     })({
         success: false,
